@@ -1,89 +1,164 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
 
-export default class App extends Component {
-  render() {
-    let pic = {
-      uri: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg'
-    };
 
-    return (
-      <View style={ { flex: 1, flexDirection: 'row', justifyContent: 'space-between' } }>
-        <Text style={ styles.container }>Bitcoin </Text>
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
 
-        {/* <Blink text='I love to blink' />
-        <Blink text='Blinking is fun!' /> */}
-        {/* <View style={ { width: 50, height: 50, backgroundColor: 'powderblue' } } />
-        <View style={ { width: 100, height: 100, backgroundColor: 'skyblue' } } />
-        <View style={ { width: 150, height: 150, backgroundColor: 'steelblue' } } /> */}
-        <Text style={ styles.numbers }>183.26b</Text>
-        <Text style={ styles.numbers }>6.35b</Text>
-        <Text style={ styles.numbers }>$10,300.00</Text>
+  ContributionGraph,
+  StackedBarChart
+} from 'react-native-chart-kit';
 
-      </View >
+import {
+  Alert,
+  Dimensions,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  TouchableNativeFeedback,
+  TouchableOpacity,
+  View
+} from 'react-native';
 
-    );
-  }
+const data = {
+  labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+  datasets: [{
+    data: [20, 45, 28, 80, 99, 43],
+    color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})` // optional
+  }]
 }
 
-class Greeting extends Component {
+const chartConfig = {
+  backgroundGradientFrom: '#1E2923',
+  backgroundGradientTo: '#08130D',
+  color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+  strokeWidth: 2 // optional, default 3
+}
+
+
+
+export default class Touchables extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { text: '' };
+  }
+  _onPressButton() {
+    Alert.alert('You tapped the button!')
+  }
+
+  _onLongPressButton() {
+    Alert.alert('You long-pressed the button!')
+  }
+
+
+
   render() {
     return (
-      <View style={ { alignItems: 'center' } }>
-        <Text> { this.props.name }</Text>
+      <View >
+        <View style={ styles.container }>
+          <View style={ { height: 33 } } />
+          <Text style={ { height: 20, color: 'white', justifyContent: 'center' } } > CryptoNative </Text>
+          <View style={ { height: 20 } } />
+        </View>
+
+        <View style={ { padding: 10 } }>
+          <TextInput
+            style={ { height: 40 } }
+            placeholder="Type the symbol here!"
+            onChangeText={ (text) => this.setState({ text }) }
+            value={ this.state.text }
+          />
+        </View>
+
+        <View style={ styles.container }>
+          <View style={ { height: 1 } } />
+        </View>
+
+        <TouchableHighlight onPress={ this._onPressButton } onLongPress={ this._onLongPressButton } underlayColor="white">
+          <View style={ styles.button }>
+            <Text style={ styles.buttonTextName }>Bitcoin</Text>
+            <LineChart
+              data={ data }
+              width={ 100 }
+              height={ 40 }
+              chartConfig={ chartConfig }
+            />
+            <Text style={ styles.buttonTextData }>$ 10,000</Text>
+            <Text style={ styles.buttonTextData }>$ 10,000</Text>
+            <Text style={ styles.buttonTextData }>$ 10,000</Text>
+          </View>
+        </TouchableHighlight>
+
+        <View style={ styles.container }>
+          <View style={ { height: 1 } } />
+        </View>
+
+        <View>
+          <Text>
+            Bezier Line Chart
+          </Text>
+          <LineChart
+            data={ {
+              labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+              datasets: [{
+                data: [
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100
+                ]
+              }]
+            } }
+            width={ Dimensions.get('window').width } // from react-native
+            height={ 220 }
+            yAxisLabel={ '$' }
+            chartConfig={ {
+              backgroundColor: '#e26a00',
+              backgroundGradientFrom: '#fb8c00',
+              backgroundGradientTo: '#ffa726',
+              decimalPlaces: 2, // optional, defaults to 2dp
+              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              style: {
+                borderRadius: 16
+              }
+            } }
+            bezier
+            style={ {
+              marginVertical: 8,
+              borderRadius: 16
+            } }
+          />
+        </View>
       </View>
     );
   }
 }
 
-class Blink extends Component {
-  componentDidMount() {
-    setInterval(() => (
-      this.setState(previousState => (
-        { isShowingText: !previousState.isShowingText }
-      ))
-    ), 1000);
-  }
-
-  state = { isShowingText: true };
-
-  render() {
-    if (!this.state.isShowingText) {
-      return null;
-    }
-
-    return (
-      <Text style={ styles.bigBlue }>{ this.props.text }</Text>
-    );
-  }
-}
-
-
 const styles = StyleSheet.create({
   container: {
-
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    top: 50,
-    color: 'gold',
-
-
-    direction: 'ltr'
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'black'
   },
-  numbers: {
-    color: 'blue',
-
+  button: {
+    marginBottom: 10,
     flexDirection: 'row',
-
-    backgroundColor: '#fff',
-    top: 50,
-
-
-
-    direction: 'ltr'
-
+    backgroundColor: 'white',
+    justifyContent: 'space-between'
   },
-  red: {
-    color: 'red',
+  buttonTextName: {
+    padding: 5,
+    color: 'black'
+  },
+  buttonTextData: {
+    padding: 5,
+    color: 'black'
   }
 });
