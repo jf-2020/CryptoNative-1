@@ -8,21 +8,17 @@ export default class App extends Component {
     };
 
     return (
-      <View style={ styles.container }>
-        <Text style={ styles.red }>Bitcoin { this.props.name }</Text>
+      <View style={ { flex: 1, flexDirection: 'row', justifyContent: 'space-between' } }>
+        <Text style={ styles.container }>Bitcoin </Text>
 
-
-        <Greeting name='183.26b' />
-        <Greeting name='6.35b' />
-        <Greeting name='$10,300.00' />
         {/* <Blink text='I love to blink' />
         <Blink text='Blinking is fun!' /> */}
         {/* <View style={ { width: 50, height: 50, backgroundColor: 'powderblue' } } />
         <View style={ { width: 100, height: 100, backgroundColor: 'skyblue' } } />
         <View style={ { width: 150, height: 150, backgroundColor: 'steelblue' } } /> */}
-
-
-        <View style={ { backgroundColor: 'skyblue' } } />
+        <Text style={ styles.numbers }>183.26b</Text>
+        <Text style={ styles.numbers }>6.35b</Text>
+        <Text style={ styles.numbers }>$10,300.00</Text>
 
       </View >
 
@@ -65,17 +61,27 @@ class Blink extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+
     flexDirection: 'row',
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
+    top: 50,
+    color: 'gold',
+
+
     direction: 'ltr'
   },
-  bigBlue: {
+  numbers: {
     color: 'blue',
-    fontWeight: 'bold',
-    fontSize: 30,
+
+    flexDirection: 'row',
+
+    backgroundColor: '#fff',
+    top: 50,
+
+
+
+    direction: 'ltr'
+
   },
   red: {
     color: 'red',
